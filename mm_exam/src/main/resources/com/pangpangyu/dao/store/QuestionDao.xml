@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.store.QuestionDao">
+    <!--配置实体类属性和数据库表中列的对应关系-->
+    <resultMap id="BaseResultMap" type="com.pangpangyu.domain.store.Question">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="subject" jdbcType="VARCHAR" property="subject"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+
+        <!--题目对题目选项的一对多-->
+        <collection
+            property="questionItemList"
+            javaType="java.util.List"
+            ofType="com.pangpangyu.domain.store.QuestionItem"
+            select="com.pangpangyu.dao.store.QuestionItemDao.findByQuestionId"
+            column="id"
+            />
+    </resultMap>
+
+    <!--配置查询的列名公共SQL语句-->
+    <sql id="Base_Column_List">
+        id, subject,type
+    </sql>
+
+    <!--配置查询所有，带条件-->
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from st_question
+        where id='70ca389a-6d07-4c40-859a-c3f0a3ebb48b' or id='01406E951164496CBA7A29FC91DF5246'
+--         order by id desc
+    </select>
+
+</mapper>
+
